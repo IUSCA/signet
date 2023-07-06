@@ -7,5 +7,6 @@ store = config['database']
 conn_string = f"{store['dialect']}://{store['user']}:{urllib.parse.quote(store['password'])}@{store['hostname']}:{store['port']}/{store['dbname']}"
 
 app = create_app({
-    'SQLALCHEMY_DATABASE_URI': conn_string
+    'SQLALCHEMY_DATABASE_URI': conn_string,
+    'OAUTH2_SCOPES_SUPPORTED': ['microservice', 'download_file']
 })
