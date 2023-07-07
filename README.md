@@ -1,4 +1,6 @@
-<img src="docs/assets/signet-logo.png" alt="signet-logo" width="50%" align="center"/>
+<p align="center">
+<img src="docs/assets/signet-logo.png" alt="signet-logo" width="50%"/>
+</p>
 
 
 Set Flask and Authlib environment variables:
