@@ -1,5 +1,6 @@
 import time
 
+from authlib.jose import JsonWebKey
 from flask import Blueprint, request, jsonify
 from werkzeug.security import gen_salt
 
@@ -55,6 +56,17 @@ def issue_token():
 def revoke_token():
     return authorization.create_endpoint_response('revocation')
 
+
 # @bp.route('/oauth/introspect', methods=['POST'])
 # def introspect_token():
 #     return authorization.create_endpoint_response(MyIntrospectionEndpoint.ENDPOINT_NAME)
+
+
+@bp.route('/oauth/jwks', methods=['GET'])
+def jwks():
+    with open('keys/auth.pub', 'r') as f:
+        public_key_str = f.read()
+        public_key = JsonWebKey.import_key(public_key_str)
+        return jsonify({
+            'keys': [public_key.as_dict()]
+        })
