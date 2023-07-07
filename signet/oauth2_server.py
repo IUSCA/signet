@@ -1,8 +1,7 @@
-from authlib.common.security import generate_token
 from authlib.integrations.sqla_oauth2 import create_query_client_func, create_revocation_endpoint, \
     create_query_token_func
 from authlib.oauth2.rfc6749 import grants
-from authlib.oauth2.rfc6750 import BearerTokenGenerator
+from authlib.oauth2.rfc7523 import JWTBearerTokenGenerator
 
 from signet.models import db, OAuth2Token, OAuth2Client
 from signet.oauth2.authorization_server import AuthorizationServer
@@ -51,18 +50,16 @@ def config_oauth(app):
 
 
 def create_token_generator():
-    def token_generator(*args, **kwargs):
-        return generate_token(length=42)
+    with open('keys/auth.key', 'r') as f:
+        secret_key = f.read()
 
-    def expires_generator(client, grant_type):
-        client_scopes = client.scope.split(' ')
-        if 'download_file' in client_scopes:
-            return 30
-        else:
-            return 864000
+    jwtBearerTokenGenerator = JWTBearerTokenGenerator(secret_key=secret_key, issuer='signet.sca.iu.edu')
 
-    return BearerTokenGenerator(
-        access_token_generator=token_generator,
-        refresh_token_generator=None,
-        expires_generator=expires_generator
-    )
+    def token_generator(grant_type, client, user=None, scope=None, expires_in=None, include_refresh_token=True):
+        if not expires_in:
+            client_scopes = client.scope.split(' ')
+            expires_in = 30 if 'download_file' in client_scopes else 864000
+
+        return jwtBearerTokenGenerator.generate(grant_type, client, user, scope, expires_in)
+
+    return token_generator

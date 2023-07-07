@@ -1,6 +1,7 @@
 from authlib.integrations.sqla_oauth2 import OAuth2ClientMixin, OAuth2TokenMixin
 from authlib.oauth2.rfc6749 import scope_to_list, list_to_scope
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Text
 
 from signet.oauth2.authorization_server import allowed_scopes
 
@@ -26,6 +27,7 @@ class OAuth2Client(db.Model, OAuth2ClientMixin):
 class OAuth2Token(db.Model, OAuth2TokenMixin):
     __tablename__ = 'oauth2_token'
     id = db.Column(db.Integer, primary_key=True)
+    access_token = Column(Text, unique=True, nullable=False)
 
     def is_refresh_token_active(self):
         pass

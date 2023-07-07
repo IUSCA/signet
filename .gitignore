@@ -104,3 +104,7 @@ db/
 
 # ignore postgres scripts
 !db/postgres
+
+# keys
+keys/*.key
+keys/*.pub
