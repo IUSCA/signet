@@ -58,7 +58,7 @@ def create_token_generator():
     def token_generator(grant_type, client, user=None, scope=None, expires_in=None, include_refresh_token=True):
         if not expires_in:
             client_scopes = client.scope.split(' ')
-            expires_in = 30 if 'download_file' in client_scopes else 864000
+            expires_in = 24 * 60 * 60 if 'download_file' in client_scopes else 864000
 
         return jwtBearerTokenGenerator.generate(grant_type, client, user, scope, expires_in)
 
