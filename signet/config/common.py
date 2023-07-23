@@ -10,7 +10,7 @@ config = {
         "user": "appuser",
         "password": DB_PASSWORD,
         "hostname": "localhost",
-        "port": "5432",
+        "port": "5532",
         "dbname": "app",
         "dialect": "postgresql+psycopg2",
     },
