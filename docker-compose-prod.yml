@@ -9,6 +9,7 @@ services:
       - 5001
     environment:
       - PORT=5001
+      - AUTHLIB_INSECURE_TRANSPORT=1
     # entrypoint: [ "tail", "-f", "/dev/null" ]
     networks:
       network:
