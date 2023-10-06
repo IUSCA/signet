@@ -2,19 +2,21 @@ version: "3"
 name: signet
 services:
   api:
-    container_name: api
+    restart: unless-stopped
     build:
       context: .
     expose:
       - 5001
     environment:
       - PORT=5001
+      - AUTHLIB_INSECURE_TRANSPORT=1
+    # entrypoint: [ "tail", "-f", "/dev/null" ]
     networks:
       network:
-        ipv4_address: 172.19.0.2
+        ipv4_address: 172.19.1.2
 
 networks:
   network:
     ipam:
       config:
-        - subnet: 172.19.0.0/24
+        - subnet: 172.19.1.0/24
