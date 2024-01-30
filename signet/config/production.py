@@ -1,8 +1,6 @@
 config = {
     'database': {
-        "user": "signet",
-        "hostname": "commons3.sca.iu.edu",
+        "hostname": "postgres",
         "port": "5432",
-        "dbname": "signet",
     },
 }

@@ -3,15 +3,17 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
-DB_PASSWORD = os.environ['DB_PASSWORD']
+POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
+POSTGRES_USER = os.environ['POSTGRES_USER']
+POSTGRES_DB = os.environ['POSTGRES_DB']
 
 config = {
     'database': {
-        "user": "appuser",
-        "password": DB_PASSWORD,
+        "user": POSTGRES_USER,
+        "password": POSTGRES_PASSWORD,
         "hostname": "localhost",
         "port": "5532",
-        "dbname": "app",
+        "dbname": POSTGRES_DB,
         "dialect": "postgresql+psycopg2",
     },
 }
