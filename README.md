@@ -19,9 +19,9 @@ $ flask run
 
 ### Create a new client
 
-- replace $APP with app name. Ex: `client_name: xenium_download`
-- replace $APP_HOSTNAME with hostname of where app is deployed. Ex: `client_uri: xenium.sca.iu.edu`
-- ssh into `core-dev1.sca.iu.edu` and run the below command. Adjust the IP to the ip of the docker container running the Signet server
+- replace $APP with app name. Ex: `client_name: app_download`
+- replace $APP_HOSTNAME with hostname of where app is deployed. Ex: `client_uri: app.company.com`
+- run the below command in the host where Signet is running. Adjust the IP to the ip of the docker container running the Signet server
 
 ```bash
 curl --request POST \
@@ -39,5 +39,5 @@ curl --request POST \
 
 ```bash
 curl --request GET \
-  --url https://oauth-dev.sca.iue.du/oauth/jwks
+  --url https://<hostname>/oauth/jwks
 ```
