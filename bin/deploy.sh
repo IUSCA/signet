@@ -2,5 +2,11 @@
 set -e
 set -o pipefail
 
+# build API
 sudo docker compose -f "docker-compose-prod.yml" build api
-sudo docker compose -f "docker-compose-prod.yml" up -d
+
+# starts postgres if it is not running
+sudo docker compose -f "docker-compose-prod.yml" up -d postgres
+
+# recreates and starts api
+sudo docker compose -f "docker-compose-prod.yml" up -d --force-recreate api

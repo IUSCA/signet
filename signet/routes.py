@@ -13,9 +13,11 @@ bp = Blueprint('home', __name__)
 def split_by_crlf(s):
     return [v for v in s.splitlines() if v]
 
+
 @bp.route('/health', methods=['GET'])
 def health():
     return 'OK'
+
 
 @bp.route('/create_client', methods=['POST'])
 def create_client():

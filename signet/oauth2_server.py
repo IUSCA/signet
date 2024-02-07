@@ -5,6 +5,7 @@ from authlib.oauth2.rfc7523 import JWTBearerTokenGenerator
 
 from signet.models import db, OAuth2Token, OAuth2Client
 from signet.oauth2.authorization_server import AuthorizationServer
+from signet.config import config
 
 
 def create_save_token_func(session, token_model):
@@ -37,7 +38,7 @@ authorization = AuthorizationServer(
 )
 
 
-def config_oauth(app):
+def configure_oauth(app):
     authorization.init_app(app)
     authorization.register_grant(grants.ClientCredentialsGrant)
     authorization.register_token_generator(grants.ClientCredentialsGrant.GRANT_TYPE, create_token_generator())
@@ -53,12 +54,17 @@ def create_token_generator():
     with open('keys/auth.key', 'r') as f:
         secret_key = f.read()
 
-    jwtBearerTokenGenerator = JWTBearerTokenGenerator(secret_key=secret_key, issuer='signet.sca.iu.edu')
+    jwtBearerTokenGenerator = JWTBearerTokenGenerator(secret_key=secret_key, issuer=config['issuer'])
 
     def token_generator(grant_type, client, user=None, scope=None, expires_in=None, include_refresh_token=True):
         if not expires_in:
             client_scopes = client.scope.split(' ')
-            expires_in = 30 if 'download_file' in client_scopes else 864000
+            if 'download_file' in client_scopes:
+                expires_in = config['token_expiration']['download_file']
+            elif 'upload_file' in client_scopes:
+                expires_in = config['token_expiration']['upload_file']
+            else:
+                expires_in = config['token_expiration']['default']
 
         return jwtBearerTokenGenerator.generate(grant_type, client, user, scope, expires_in)
 

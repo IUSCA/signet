@@ -9,11 +9,13 @@ def allowed_scopes(supported: list[str], requested: list[str]) -> list[str]:
 
     supported = set(supported)
     DL_SCOPE = 'download_file'
-    return [s
-            for s in requested
-            if s in supported or
-            (s.startswith(DL_SCOPE) and DL_SCOPE in supported)
-            ]
+    UPLOAD_SCOPE = 'upload_file'
+    return [
+        s for s in requested
+        if s in supported or
+        (s.startswith(DL_SCOPE) and DL_SCOPE in supported) or
+        (s.startswith(UPLOAD_SCOPE) and UPLOAD_SCOPE in supported)
+    ]
 
 
 class AuthorizationServer(FlaskAuthorizationServer):

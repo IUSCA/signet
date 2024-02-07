@@ -11,6 +11,8 @@ services:
       - PORT=5001
       - AUTHLIB_INSECURE_TRANSPORT=1
     # entrypoint: [ "tail", "-f", "/dev/null" ]
+    depends_on:
+      - postgres
     networks:
       network:
         ipv4_address: 172.19.1.2
