@@ -8,5 +8,5 @@ conn_string = f"{store['dialect']}://{store['user']}:{urllib.parse.quote(store['
 
 app = create_app({
     'SQLALCHEMY_DATABASE_URI': conn_string,
-    'OAUTH2_SCOPES_SUPPORTED': ['microservice', 'download_file', 'upload_file']
+    'OAUTH2_SCOPES_SUPPORTED': ['microservice', 'download_file', 'upload_file', 'fs:read']
 })

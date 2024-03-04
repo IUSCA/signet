@@ -3,9 +3,9 @@ from authlib.integrations.sqla_oauth2 import create_query_client_func, create_re
 from authlib.oauth2.rfc6749 import grants
 from authlib.oauth2.rfc7523 import JWTBearerTokenGenerator
 
+from signet.config import config
 from signet.models import db, OAuth2Token, OAuth2Client
 from signet.oauth2.authorization_server import AuthorizationServer
-from signet.config import config
 
 
 def create_save_token_func(session, token_model):
@@ -59,10 +59,12 @@ def create_token_generator():
     def token_generator(grant_type, client, user=None, scope=None, expires_in=None, include_refresh_token=True):
         if not expires_in:
             client_scopes = client.scope.split(' ')
-            if 'download_file' in client_scopes:
+            if scope.startswith('download_file'):
                 expires_in = config['token_expiration']['download_file']
-            elif 'upload_file' in client_scopes:
+            elif scope.startswith('upload_file'):
                 expires_in = config['token_expiration']['upload_file']
+            elif scope in config['token_expiration']:
+                expires_in = config['token_expiration'][scope]
             else:
                 expires_in = config['token_expiration']['default']
 
