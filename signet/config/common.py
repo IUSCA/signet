@@ -23,7 +23,7 @@ config = {
     'token_expiration': {
         'download_file': 30,
         'upload_file': 30,
-        'fs:read': 5 * 60,
+        'fs_read': 5 * 60,
         'default': 864000
     }
 }
