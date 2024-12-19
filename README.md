@@ -28,7 +28,7 @@ curl --request POST \
   --url http://172.19.1.2:5001/create_client \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data client_name=$APP_download \
-  --data scope=download_file \
+  --data scope=scope1\ scope2 \
   --data client_uri=$APP_HOSTNAME \
   --data token_endpoint_auth_method=client_secret_basic \
   --data grant_type=client_credentials
